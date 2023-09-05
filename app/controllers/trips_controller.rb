@@ -1,7 +1,7 @@
 class TripsController < ApplicationController
   def index
-    @trips = Trips.all
-    render json: @exercise
+    @trips = Trip.all
+    render json: @trips
   end
 
   def show
@@ -10,13 +10,16 @@ class TripsController < ApplicationController
   end
 
   def create
-    @trip = Trips.create(
+    @trip = Trip.create(
+      user_id: params[:user_id],
       title: params[:title],
       image_url: params[:image_url],
       start_time: params[:start_time],
       end_time: params[:end_time],
     )
-    render :show
+    if @trip.save
+      render json: @trip
+    else render json: { errors: @trip.errors.full_messages }, status: :bad_request     end
   end
 
   def update
@@ -27,6 +30,6 @@ class TripsController < ApplicationController
       start_time: params[:start_time] || @trip.start_time,
       end_time: params[:end_time] || @trip.end_time,
     )
-    render :show
+    render json: @trip
   end
 end
