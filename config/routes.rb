@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   patch "/trips/:id" => "trips#update"
 
   post "/users" => "users#create"
+
   post "/sessions" => "sessions#create"
 end

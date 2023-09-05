@@ -1,11 +1,13 @@
 class TripsController < ApplicationController
+  before_action :authenticate_user
+
   def index
-    @trips = Trip.all
+    @trips = current_user.trips.all
     render json: @trips
   end
 
   def show
-    @trip = Trip.find_by(id: params[:id])
+    @trip = current_user.trip.find_by(id: params[:id])
     render json: @trip
   end
 
