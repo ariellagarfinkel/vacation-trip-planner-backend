@@ -1,10 +1,10 @@
 class PlacesController < ApplicationController
   before_action :authenticate_user, except: [:index]
 
-  def index
-    @places = Place.all
-    render json: @places
-  end
+  # def index
+  #   @places = Place.all
+  #   render json: @places
+  # end
 
   def create
     trip = Trip.find_by(id: params[:trip_id])

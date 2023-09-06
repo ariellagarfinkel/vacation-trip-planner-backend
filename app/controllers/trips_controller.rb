@@ -3,12 +3,13 @@ class TripsController < ApplicationController
 
   def index
     @trips = current_user.trips.all
-    render json: @trips
+    render :index
   end
 
   def show
-    if @trip = current_user.trips.find_by(id: params[:id])
-      render json: @trip
+    @trip = current_user.trips.find_by(id: params[:id])
+    if @trip
+      render :show
     else
       render json: { message: "Don't look at other peoples trips!!" }, status: :unprocessable_entity
     end
@@ -29,12 +30,16 @@ class TripsController < ApplicationController
 
   def update
     @trip = current_user.trips.find_by(id: params[:id])
-    @trip.update(
-      title: params[:title] || @trip.title,
-      image_url: params[:image_url] || @trip.image_url,
-      start_time: params[:start_time] || @trip.start_time,
-      end_time: params[:end_time] || @trip.end_time,
-    )
-    render json: @trip
+    if @trip
+      @trip.update(
+        title: params[:title] || @trip.title,
+        image_url: params[:image_url] || @trip.image_url,
+        start_time: params[:start_time] || @trip.start_time,
+        end_time: params[:end_time] || @trip.end_time,
+      )
+      render json: @trip
+    else
+      render json: {}, status: :unauthorized
+    end
   end
 end

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   post "/trips" => "trips#create"
   patch "/trips/:id" => "trips#update"
 
-  get "/places" => "places#index"
+  # get "/places" => "places#index"
   post "/places" => "places#create"
 
   post "/users" => "users#create"
