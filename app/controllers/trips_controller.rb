@@ -7,13 +7,16 @@ class TripsController < ApplicationController
   end
 
   def show
-    @trip = current_user.trip.find_by(id: params[:id])
-    render json: @trip
+    if @trip = current_user.trips.find_by(id: params[:id])
+      render json: @trip
+    else
+      render json: { message: "Don't look at other peoples trips!!" }, status: :unprocessable_entity
+    end
   end
 
   def create
     @trip = Trip.create(
-      user_id: params[:user_id],
+      user_id: current_user.id,
       title: params[:title],
       image_url: params[:image_url],
       start_time: params[:start_time],
@@ -25,7 +28,7 @@ class TripsController < ApplicationController
   end
 
   def update
-    @trip = Trip.find_by(id: params[:id])
+    @trip = current_user.trips.find_by(id: params[:id])
     @trip.update(
       title: params[:title] || @trip.title,
       image_url: params[:image_url] || @trip.image_url,
